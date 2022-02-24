@@ -1,0 +1,14 @@
+{
+    "name": "boomboom",
+    "version": "1.0.0",
+    "description": "BoomBoom FLEX API",
+    "main": "./src/main.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "evvive",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "chalk": "^4.0.0"
+    }
+}
