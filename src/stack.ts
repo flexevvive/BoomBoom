@@ -1,5 +1,6 @@
 import { BBException } from "./boomboom";
 import { Logger } from "./logger";
+import chalk from "chalk";
 
 export class Stack {
     private stack: Array<any>;
@@ -34,7 +35,20 @@ export class Stack {
     }
 
     public dump(): void {
-        this.logger.dump("Stack", `${this.stack}`);
+        let formattedStack: string = "";
+
+        for (let i in this.stack) {
+            const value = this.stack[i];
+
+            if (Number(i) == this.stack.length - 1)
+                formattedStack += `${chalk.green("|STK|")} ${chalk.red(`${i}`)}: ${value}`;
+            else
+                formattedStack += `${chalk.green("|STK|")} ${chalk.red(`${i}`)}: ${value}\n`;
+
+
+        }
+
+        this.logger.dump("Stack", `${formattedStack}`);
 
         return;
     }
