@@ -3,8 +3,7 @@ import chalk from "chalk";
 
 try {
     const bb = new BoomBoom({
-        "flex": [["HELLO, WORLD"], "--boomboom-stack-dump", "--boomboom-vstack-dump"],
-        "--main": [["Welcome to FLEX!"], "flex"]
+        "--main": [["Hello, World"], "puts", ["What is your name?"], "gets", ".@name#", "--boomboom-vstack-dump"]
     }, [], {
         flex: {
             isConst: true,
