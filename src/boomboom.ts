@@ -38,7 +38,7 @@ export class BoomBoom {
 
     public eval(method: string): void {
         const currentMethod = this.map[method];
-        console.log(method);
+        this.logger.debug(`Evaluating method ${method}`);
 
         for (let instrNum in currentMethod) {
             const instr = currentMethod[instrNum];
