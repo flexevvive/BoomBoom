@@ -40,10 +40,10 @@ export class Stack {
         for (let i in this.stack) {
             const value = this.stack[i];
 
-            if (Number(i) == this.stack.length - 1)
+            if (this.stack[0] == this.stack[i])
                 formattedStack += `${chalk.green("|STK|")} ${chalk.red(`${i}`)}: ${value}`;
             else
-                formattedStack += `${chalk.green("|STK|")} ${chalk.red(`${i}`)}: ${value}\n`;
+                formattedStack += `\n${chalk.green("|STK|")} ${chalk.red(`${i}`)}: ${value}`;
 
 
         }
