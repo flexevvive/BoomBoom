@@ -1,6 +1,7 @@
 import { Types } from "./types";
 import { Stack } from "./stack";
 import { VStack, VariableMap } from "./vstack";
+import { Logger } from "./logger";
 
 export interface BBMethodMap {
     [name: string]: Array<any>;
@@ -17,15 +18,17 @@ export class BBException {
     }
 }
 
-export class BBMethodHandler {
+export class BoomBoom {
     public map: BBMethodMap;
     public stack: Stack;
     public vstack: VStack;
+    private logger: Logger;
 
     public constructor(map: BBMethodMap, stack: Array<any>, vstack: VariableMap) {
         this.map = map;
         this.stack = new Stack(stack);
         this.vstack = new VStack(vstack);
+        this.logger = new Logger("BOOMBOOM");
 
         if (!this.hasMain())
             throw new BBException("Main method not found, aborting");
@@ -42,7 +45,7 @@ export class BBMethodHandler {
             const instr = mainMethod[instrNum];
 
             if (Types.isString(instr) || typeof instr == "number") {
-                console.log("*** DATA TYPE ***");
+                this.logger.debug("Data type found");
 
                 if (Array.isArray(instr)) {
                     this.stack.push(instr[0]);
@@ -54,16 +57,18 @@ export class BBMethodHandler {
             }
 
             if (!/\s/g.test(instr) && /[a-zA-Z0-9z]/.test(instr)) {
-                console.log("*** INSTRUCTION ***");
+                this.logger.debug("Instruction found");
 
                 if (instr in this.map) {
-                    console.log("*** METHOD IN MAP ***");
+                    this.logger.debug("Given method is in map, executing");
 
                     this.eval(instr);
                 } else {
                     if (instr == "--boomboom-vstack-dump") {
+                        this.logger.debug("Dumping vstack");
                         this.vstack.dump();
                     } else if (instr == "--boomboom-stack-dump") {
+                        this.logger.debug("Dumping stack");
                         this.stack.dump();
                     } else
                         throw new BBException(`Invalid method (${instr})`);
@@ -73,7 +78,7 @@ export class BBMethodHandler {
             }
 
             if (instr.startsWith(".")) {
-                console.log("*** POP EXPRESSION ***");
+                this.logger.debug("Given expression is a pop-expression");
 
                 if (!(!/\s/g.test(instr) && /^.?@[a-zA-Z0-9z]/.test(instr)))
                     throw new BBException(`Malformed pop-expression (${instr})`);
