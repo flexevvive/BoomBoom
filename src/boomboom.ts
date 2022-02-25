@@ -38,7 +38,7 @@ export class BoomBoom {
 
     public eval(method: string): void {
         const currentMethod = this.map[method];
-        this.logger.debug(`Evaluating method ${method}`);
+        this.logger.debug(`Evaluating method '${method}'`);
 
         for (let instrNum in currentMethod) {
             const instr = currentMethod[instrNum];
@@ -79,7 +79,7 @@ export class BoomBoom {
             if (instr.startsWith(".")) {
                 this.logger.debug(`(${method}) Given expression is a pop-expression`);
 
-                if (!(!/\s/g.test(instr) && /^.?@[a-zA-Z0-9z]/.test(instr)))
+                if (!(!/\s/g.test(instr) && /^.?@[a-zA-Z0-9z][#]/.test(instr)))
                     throw new BBException(`Malformed pop-expression (${instr}) in ${method}`);
 
                 this.vstack.set({
