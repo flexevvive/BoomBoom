@@ -1,10 +1,10 @@
-import { BBException, BBMethodHandler, BBMethodMap } from "./method";
+import { BBException, BoomBoom } from "./boomboom";
 import chalk from "chalk";
 
 try {
-    const bb = new BBMethodHandler({
+    const bb = new BoomBoom({
         "flex": [["HELLO, WORLD"], "--boomboom-stack-dump"],
-        "--main": [["Welcome to FLEX!"], "flexo"]
+        "--main": [["Welcome to FLEX!"], "flex"]
     }, [], {
         flex: {
             isConst: true,

@@ -1,10 +1,13 @@
-import { BBException } from "./method";
+import { BBException } from "./boomboom";
+import { Logger } from "./logger";
 
 export class Stack {
     private stack: Array<any>;
+    private logger: Logger;
 
     public constructor(stack: Array<any>)  {
         this.stack = stack;
+        this.logger = new Logger("STACK");
 
         return;
     }
@@ -31,9 +34,7 @@ export class Stack {
     }
 
     public dump(): void {
-        console.log("*** STACK DUMP ***");
-        console.log(this.stack);
-        console.log("*** END STACK DUMP ***");
+        this.logger.dump("Stack", `${this.stack}`);
 
         return;
     }

@@ -1,4 +1,4 @@
-import { BBException } from "./method";
+import { BBException } from "./boomboom";
 
 export interface VariableMap {
     [name: string]: {
