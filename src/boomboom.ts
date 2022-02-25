@@ -37,15 +37,14 @@ export class BoomBoom {
     }
 
     public eval(method: string): void {
-        const mainMethod = this.map[method];
+        const currentMethod = this.map[method];
+        console.log(method);
 
-        console.log(mainMethod);
-
-        for (let instrNum in mainMethod) {
-            const instr = mainMethod[instrNum];
+        for (let instrNum in currentMethod) {
+            const instr = currentMethod[instrNum];
 
             if (Types.isString(instr) || typeof instr == "number") {
-                this.logger.debug("Data type found");
+                this.logger.debug(`(${method}) Data type found`);
 
                 if (Array.isArray(instr)) {
                     this.stack.push(instr[0]);
@@ -57,31 +56,31 @@ export class BoomBoom {
             }
 
             if (!/\s/g.test(instr) && /[a-zA-Z0-9z]/.test(instr)) {
-                this.logger.debug("Instruction found");
+                this.logger.debug(`(${method}) Instruction found`);
 
                 if (instr in this.map) {
-                    this.logger.debug("Given method is in map, executing");
+                    this.logger.debug(`(${method}) Given method is in map, executing`);
 
                     this.eval(instr);
                 } else {
                     if (instr == "--boomboom-vstack-dump") {
-                        this.logger.debug("Dumping vstack");
+                        this.logger.debug(`(${method}) Dumping vstack`);
                         this.vstack.dump();
                     } else if (instr == "--boomboom-stack-dump") {
-                        this.logger.debug("Dumping stack");
+                        this.logger.debug(`(${method}) Dumping stack`);
                         this.stack.dump();
                     } else
-                        throw new BBException(`Invalid method (${instr})`);
+                        throw new BBException(`Invalid method (${instr}) in ${method}`);
                 }
 
                 continue;
             }
 
             if (instr.startsWith(".")) {
-                this.logger.debug("Given expression is a pop-expression");
+                this.logger.debug(`(${method}) Given expression is a pop-expression`);
 
                 if (!(!/\s/g.test(instr) && /^.?@[a-zA-Z0-9z]/.test(instr)))
-                    throw new BBException(`Malformed pop-expression (${instr})`);
+                    throw new BBException(`Malformed pop-expression (${instr}) in ${method}`);
 
                 this.vstack.set({
                     name: instr.split(".")[1].split("@")[1],
@@ -90,7 +89,7 @@ export class BoomBoom {
                 });
             }
 
-            throw new BBException(`Invalid instruction (${instr})`);
+            throw new BBException(`Invalid instruction (${instr}) in ${method}`);
         }
 
         return;
